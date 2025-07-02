@@ -5,7 +5,7 @@ using std::string;
 class SimilarityChecker {
 public:
 	double getScore(string a, string b) {
-		if (a.size() == b.size()) return MAX_SCORE;
+		if (a.size() == b.size()) return MAX_LENGH_SCORE;
 		return getLengthPartialScore(a, b);
 	}
 
@@ -13,6 +13,7 @@ private:
 	double getLengthPartialScore(string& a, string& b)
 	{
 		std::pair<int, int> strNum = getWhichLonger(a.size(), b.size());
+		if (isDoubleScore(strNum)) return MIN_LENGTH_SCORE;
 		double gap = static_cast<double>(strNum.first - strNum.second);
 		return getLengthPartialFinalScore(gap, strNum.second);
 	}
@@ -34,8 +35,13 @@ private:
 	}
 
 	double getLengthPartialFinalScore(double gap, int shorterStrNum) {
-		return (1 - static_cast<double>(gap / shorterStrNum)) * 60;
+		return (1 - static_cast<double>(gap / shorterStrNum)) * MAX_LENGH_SCORE;
 	}
 
-	double MAX_SCORE = 60;
+	bool isDoubleScore(std::pair<int, int> strNum) {
+		return (strNum.first >= (strNum.second * 2));
+	}
+
+	const double MAX_LENGH_SCORE = 60;
+	const double MIN_LENGTH_SCORE = 0;
 };

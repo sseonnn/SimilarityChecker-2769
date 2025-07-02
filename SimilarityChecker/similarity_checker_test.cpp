@@ -1,28 +1,34 @@
 #include "gmock/gmock.h"
 #include "similarity_checker.cpp"
 
-TEST(SimilarityChecker, LengthMaxScore) {
-	SimilarityChecker checker;
+using namespace testing;
 
-	EXPECT_DOUBLE_EQ(60.0, checker.getScore("ASD", "DSA"));
+class SimilarityCheckerFixture : public Test {
+public:
+	SimilarityChecker checker;
+	void testScore(double actual, string a, string b) {
+		EXPECT_DOUBLE_EQ(actual, checker.getScore(a, b));
+	}
+};
+
+TEST_F(SimilarityCheckerFixture, LengthMaxScore) {
+	testScore(60.0, "ASD", "DSA");
 }
 
-TEST(SimilarityChecker, LengthZeroScore) {
-	SimilarityChecker checker;
-
-	EXPECT_DOUBLE_EQ(0, checker.getScore("A", "BB"));
+TEST_F(SimilarityCheckerFixture, LengthZeroScore) {
+	testScore(0, "A", "BB");
 }
 
-TEST(SimilarityChecker, LengthPartialScore20) {
-	SimilarityChecker checker;
-
-	EXPECT_DOUBLE_EQ(20.0, checker.getScore("AAABB", "BAA"));
+TEST_F(SimilarityCheckerFixture, LengthPartialScore20) {
+	testScore(20.0, "AAABB", "BAA");
 }
 
-TEST(SimilarityChecker, LengthPartialScore30) {
-	SimilarityChecker checker;
+TEST_F(SimilarityCheckerFixture, LengthPartialScore30) {
+	testScore(30.0, "AA", "AAE");
+}
 
-	EXPECT_DOUBLE_EQ(30.0, checker.getScore("AA", "AAE"));
+TEST_F(SimilarityCheckerFixture, LengthDoubleScore) {
+	testScore(0, "AA", "AAAAA");
 }
 
 int main() {
