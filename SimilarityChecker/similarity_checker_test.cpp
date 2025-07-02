@@ -7,6 +7,12 @@ TEST(SimilarityChecker, LengthMaxScore) {
 	EXPECT_EQ(60, checker.getScore("ASD", "DSA"));
 }
 
+TEST(SimilarityChecker, LengthZeroScore) {
+	SimilarityChecker checker;
+
+	EXPECT_EQ(0, checker.getScore("A", "BB"));
+}
+
 int main() {
 	::testing::InitGoogleMock();
 	return RUN_ALL_TESTS();
