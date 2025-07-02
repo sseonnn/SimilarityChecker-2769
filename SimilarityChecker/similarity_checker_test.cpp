@@ -1,8 +1,10 @@
 #include "gmock/gmock.h"
 #include "similarity_checker.cpp"
 
-TEST(SimilarityChecker, chekTest) {
-	EXPECT_EQ(1, 1);
+TEST(SimilarityChecker, LengthMaxScore) {
+	SimilarityChecker checker;
+
+	EXPECT_EQ(60, checker.getScore("ASD", "DSA"));
 }
 
 int main() {
